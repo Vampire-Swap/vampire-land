@@ -1,21 +1,28 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import HelloWorld from './components/HelloWorld.vue'
+import Navbar from "./components/Navbar.vue";
+import Drawer from "./components/Drawer.vue";
+import { NavigationLink } from "./utils/entities/NavigationLink";
+
+const navigationLinks: Array<NavigationLink> = new Array<NavigationLink>(
+    new NavigationLink('Blood Pools', '/blood-pools', 'tint'),
+    new NavigationLink('Pumpkin Patches', '/pumpkin-patches', 'jack-o-lantern'),
+    new NavigationLink('Roadmap', '/roadmap', 'map-marked-alt'),
+);
+
+function openMobileNavbar() {
+  document.getElementById('mobile-navbar')!.style.height="100%";
+}
+
+function closeMobileNavbar() {
+  document.getElementById('mobile-navbar')!.style.height="0";
+}
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <Drawer :navigationLinks="navigationLinks" @close-mobile-navbar="closeMobileNavbar" />
+  <Navbar class="sticky top-0" :navigationLinks="navigationLinks" @open-mobile-navbar="openMobileNavbar" />
+  <router-view />
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
