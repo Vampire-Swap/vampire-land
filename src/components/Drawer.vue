@@ -21,6 +21,10 @@ defineEmits(['closeMobileNavbar'])
           <NavigationLink :navigationLink="navigationLink" class="text-xl mt-2 content-center" />
         </li>
       </ul>
+      <button id="wallet-button" class="btn btn-primary btn-md mt-8 normal-case text-xl">
+        <fa-icon icon="wallet" class="mr-2" />
+        Connect Wallet
+      </button>
     </div>
   </div>
 </template>
