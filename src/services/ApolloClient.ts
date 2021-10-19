@@ -1,7 +1,15 @@
 import { ApolloClient, createHttpLink, InMemoryCache, NormalizedCacheObject } from '@apollo/client/core'
 
 // Cache implementation
-const cache = new InMemoryCache()
+const cache = new InMemoryCache(
+    {
+        typePolicies: {
+            Token: {
+                keyFields: ['id']
+            }
+        }
+    }
+)
 
 export function getApolloClient(uri: string): ApolloClient<NormalizedCacheObject> {
     // HTTP connection to the API
