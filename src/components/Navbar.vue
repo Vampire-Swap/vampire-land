@@ -30,7 +30,7 @@ defineEmits(['openMobileNavbar']);
             Connect Wallet
           </button>
 
-          <button @click="this.$emit('openMobileNavbar')" class="btn lg:hidden">
+          <button @click="$emit('openMobileNavbar')" class="btn lg:hidden">
             <fa-icon icon="bars" size="lg" />
           </button>
       </div>

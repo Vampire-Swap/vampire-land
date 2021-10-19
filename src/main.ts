@@ -13,7 +13,12 @@ library.add(faTint, faMapMarkedAlt, faWallet, faCoins, faChartLine, faChartArea,
 
 const app = createApp(App);
 
-app.config.globalProperties.$filters = {
+app.component('fa-icon', FontAwesomeIcon);
+app.provide(ApolloClients, {
+    spookyswap: getApolloClient("https://api.thegraph.com/subgraphs/name/eerieeight/spookyswap"),
+    default: getApolloClient("https://api.thegraph.com/subgraphs/name/eerieeight/spookyswap")
+});
+app.provide("filters", {
     usd(value: string): string {
         return '$' + value;
     },
@@ -39,11 +44,5 @@ app.config.globalProperties.$filters = {
         // format number and add suffix
         return scaled.toFixed(2) + suffix;
     }
-}
-
-app.component('fa-icon', FontAwesomeIcon);
-app.provide(ApolloClients, {
-    spookyswap: getApolloClient("https://api.thegraph.com/subgraphs/name/eerieeight/spookyswap"),
-    default: getApolloClient("https://api.thegraph.com/subgraphs/name/eerieeight/spookyswap")
 })
 app.use(router).mount('#app')

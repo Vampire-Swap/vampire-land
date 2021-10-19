@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { useQuery, useResult } from '@vue/apollo-composable';
     import { gql } from 'graphql-tag';
-    import { computed, ComputedRef } from 'vue';
+    import { computed, ComputedRef, inject } from 'vue';
     import { TokenResponse } from '../utils/entities/Token';
     
     const props = defineProps({
@@ -54,6 +54,8 @@
         return total.toFixed(2);
     });
 
+    const filters: any = inject("filters");
+
 </script>
 
 <template>
@@ -62,7 +64,7 @@
             <fa-icon :icon="statIcon" size="lg" />
         </div>
         <div class="stat-title">{{ statTitle }}</div>
-        <div class="stat-value">{{ $filters.usd($filters.kformat(tvl)) }}</div>
+        <div class="stat-value">{{ filters.usd(filters.kformat(tvl)) }}</div>
         <div class="stat-desc">{{ statDescription }}</div>
     </div>
 </template>
