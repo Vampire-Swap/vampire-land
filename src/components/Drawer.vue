@@ -13,7 +13,7 @@ defineEmits(['closeMobileNavbar'])
 </script>
 
 <template>
-  <div id="mobile-navbar" class="overlay fixed z-10 right-0 top-0 bg-neutral overflow-x-hidden w-full md:w-96 md:mt-2 md:right-2">
+  <div id="mobile-navbar" class="overlay fixed z-20 right-0 top-0 bg-neutral overflow-x-hidden w-full md:w-96 md:mt-2 md:right-2">
     <btn class="btn absolute top-7 right-7 p-2" @click="$emit('closeMobileNavbar')"><fa-icon icon="times" size="lg" /></btn>
     <div class="relative top-1/4 w-full text-center mt-8">
       <ul class="menu m-4">
