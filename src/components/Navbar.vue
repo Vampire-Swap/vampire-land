@@ -11,7 +11,7 @@ defineEmits(['openMobileNavbar']);
 </script>
 
 <template>
-  <nav class="sticky top-0">
+  <nav class="sticky top-0 z-10">
     <div class="navbar bg-neutral text-neutral-content rounded-lg sticky top-0">
       <div class="navbar-start">
           <router-link to="/" class="text-lg font-bold ml-2 text-primary flex justify-center items-center">
