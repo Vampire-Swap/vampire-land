@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useQuery, useResult } from '@vue/apollo-composable';
-import { computed, ComputedRef, inject } from 'vue';
+import { computed, ComputedRef, inject, Ref } from 'vue';
 import { getTokenLiquidityInfo } from '../../utils/Constants';
-import { TokenResponse } from '../../utils/entities/Token';
+import { PairQuote } from '../../utils/entities/PairQuote';
+import { Token, TokenResponse } from '../../utils/entities/Token';
 import SkeletonStat from './SkeletonStat.vue';
 
 const props = defineProps({
@@ -11,24 +12,12 @@ const props = defineProps({
         trype: String,
         required: true,
     },
-    statDescription: String,
-    apolloClient: {
-        type: String,
-        required: true,
-    },
-    tokenAddress: {
-        type: String,
-        required: true,
-    },
+    statDescription: String
 });
 
-const { result, loading } = useQuery<TokenResponse>(getTokenLiquidityInfo(props.tokenAddress), null, {
-    fetchPolicy: 'cache-first',
-    pollInterval: 600000,
-    clientId: props.apolloClient
-});
-
-const farmsValueLocked = useResult(result, [], data => data.token.pairQuote);
+const filters: any = inject("filters");
+const ftmScanStats: any = inject("ftmScanStats");
+const farmsValueLocked: Ref<Readonly<Array<PairQuote>>> = ftmScanStats.tvlInfo as Ref<Readonly<Array<PairQuote>>>;
 
 const tvl: ComputedRef<string> = computed(() => {
     let total: number = 0;
@@ -39,14 +28,10 @@ const tvl: ComputedRef<string> = computed(() => {
 
     return total.toFixed(2);
 });
-
-const filters: any = inject("filters");
-
 </script>
 
 <template>
-    <SkeletonStat v-if="loading" />
-    <div v-else class="stat">
+    <div class="stat">
         <div class="stat-figure text-secondary">
             <fa-icon :icon="statIcon" size="lg" />
         </div>

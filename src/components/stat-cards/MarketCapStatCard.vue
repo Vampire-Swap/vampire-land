@@ -1,43 +1,28 @@
 <script setup lang="ts">
 import { getTokenPriceInfo } from "../../utils/Constants";
-import { TokenResponse } from "../../utils/entities/Token";
+import { Token, TokenResponse } from "../../utils/entities/Token";
 import { useQuery, useResult } from "@vue/apollo-composable";
-import { getBurnedTokens, getTotalSupply } from "../../utils/FtmScanStats";
-import { computed, inject } from "vue";
+import { computed, inject, Ref } from "vue";
+import SkeletonStat from "./SkeletonStat.vue";
 
 const props = defineProps({
     statIcon: String,
     statTitle: {
         trype: String,
         required: true,
-    },
-    apolloClient: {
-        type: String,
-        required: true,
-    },
-    tokenAddress: {
-        type: String,
-        required: true,
-    },
+    }
 });
 
-const { result, loading } = useQuery<TokenResponse>(getTokenPriceInfo(props.tokenAddress), null, {
-    fetchPolicy: 'cache-first',
-    pollInterval: 600000,
-    clientId: props.apolloClient
-});
+const filters: any = inject("filters");
+const ftmScanStats: any = inject("ftmScanStats");
+const price: Ref<string> = ftmScanStats.priceInfo as Ref<string>;
 
-const price = useResult(result, "0.0", data => data.token.tokenDayData[0].priceUSD);
-const totalSupply = await getTotalSupply(props.tokenAddress);
-const burnedTokens = await getBurnedTokens(props.tokenAddress);
+const totalSupply = await (ftmScanStats.totalSupply as Promise<string>);
+const burnedTokens = await (ftmScanStats.burnedTokens as Promise<string>);
 
 const marketCap = computed(() => {
     return ((parseFloat(totalSupply) - parseFloat(burnedTokens)) / Math.pow(10,18) * parseFloat(price.value)).toFixed(2);
 })
-
-console.log(marketCap)
-
-const filters: any = inject("filters");
 </script>
 
 <template>
