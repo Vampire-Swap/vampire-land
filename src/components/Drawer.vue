@@ -2,6 +2,7 @@
 import { PropType } from "vue";
 import { NavigationLink as NavigationLinkEntity } from "../utils/entities/NavigationLink";
 import NavigationLink from "./NavigationLink.vue"
+import { ACCOUNT, connect } from "../services/Wallet";
 
 defineProps({
   navigationLinks: Array as PropType<Array<NavigationLinkEntity>>,
@@ -9,7 +10,7 @@ defineProps({
 
 defineEmits(['closeMobileNavbar'])
 
-
+const addressFormat: any = inject("addressFormat");
 </script>
 
 <template>
@@ -23,7 +24,7 @@ defineEmits(['closeMobileNavbar'])
       </ul>
       <button id="wallet-button" class="btn btn-primary btn-md mt-8 normal-case text-xl">
         <fa-icon icon="wallet" class="mr-2" />
-        Connect Wallet
+        {{ ACCOUNT==="Connect Wallet" ? ACCOUNT : addressFormat(ACCOUNT) }}
       </button>
     </div>
   </div>
