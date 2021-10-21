@@ -19,10 +19,10 @@ const addressFormat: any = inject("addressFormat");
     <div class="relative top-1/4 w-full text-center mt-8">
       <ul class="menu m-4">
         <li v-for="navigationLink in navigationLinks" :key="navigationLink.displayedContent">
-          <NavigationLink :navigationLink="navigationLink" class="text-xl mt-2 content-center" />
+          <NavigationLink @click="$emit('closeMobileNavbar')" :navigationLink="navigationLink" class="text-xl mt-2 content-center" />
         </li>
       </ul>
-      <button id="wallet-button" class="btn btn-primary btn-md mt-8 normal-case text-xl">
+      <button @click="connect" id="wallet-button" class="btn btn-primary btn-md mt-8 normal-case text-xl">
         <fa-icon icon="wallet" class="mr-2" />
         {{ ACCOUNT==="Connect Wallet" ? ACCOUNT : addressFormat(ACCOUNT) }}
       </button>
