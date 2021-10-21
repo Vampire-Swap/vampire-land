@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { PropType } from "vue";
+import { computed, inject, PropType, Ref, ref } from "vue";
+import { ACCOUNT, connect } from "../services/Wallet";
 import { NavigationLink as NavigationLinkEntity } from "../utils/entities/NavigationLink";
 import NavigationLink from "./NavigationLink.vue"
 
@@ -8,6 +9,8 @@ defineProps({
 });
 
 defineEmits(['openMobileNavbar']);
+
+const addressFormat: any = inject("addressFormat");
 </script>
 
 <template>
@@ -16,7 +19,7 @@ defineEmits(['openMobileNavbar']);
       <div class="navbar-start">
           <router-link to="/" class="text-lg font-bold ml-2 text-primary flex justify-center items-center">
             <img src="../assets/Bat.png" alt="VampireSwap bat" width="62" height="62" class="mr-2">
-            VampireSwap
+            Vampire Land
           </router-link>
       </div>
 
@@ -25,9 +28,9 @@ defineEmits(['openMobileNavbar']);
       </div>
 
       <div class="navbar-end">
-          <button id="wallet-button" class="btn btn-primary btn-md mr-2 normal-case text-base hidden lg:inline-flex">
+          <button @click="connect" id="wallet-button" class="btn btn-primary btn-md mr-2 normal-case text-base hidden lg:inline-flex">
             <fa-icon icon="wallet" class="mr-2" />
-            Connect Wallet
+            {{ ACCOUNT==="Connect Wallet" ? ACCOUNT : addressFormat(ACCOUNT) }}
           </button>
 
           <button @click="$emit('openMobileNavbar')" class="btn lg:hidden">

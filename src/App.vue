@@ -2,6 +2,7 @@
 import Navbar from "./components/Navbar.vue";
 import Drawer from "./components/Drawer.vue";
 import { NavigationLink } from "./utils/entities/NavigationLink";
+import Footer from "./components/Footer.vue";
 
 const navigationLinks: Array<NavigationLink> = new Array<NavigationLink>(
     new NavigationLink('Blood Pools', '/blood-pools', 'tint'),
@@ -22,6 +23,7 @@ function closeMobileNavbar() {
   <Drawer :navigationLinks="navigationLinks" @close-mobile-navbar="closeMobileNavbar" />
   <Navbar class="sticky top-0" :navigationLinks="navigationLinks" @open-mobile-navbar="openMobileNavbar" />
   <router-view />
+  <Footer />
 </template>
 
 <style>

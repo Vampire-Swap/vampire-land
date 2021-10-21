@@ -8,8 +8,9 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faBat, faJackOLantern } from './utils/CustomIcons'
 import { ApolloClients } from '@vue/apollo-composable'
 import { getApolloClient } from './services/ApolloClient'
+import { faMedium, faTelegramPlane, faTwitter } from '@fortawesome/free-brands-svg-icons'
 
-library.add(faTint, faMapMarkedAlt, faWallet, faCoins, faChartLine, faChartArea, faJackOLantern, faBat, faBars, faTimes)
+library.add(faTint, faMapMarkedAlt, faWallet, faCoins, faChartLine, faChartArea, faJackOLantern, faBat, faBars, faTimes, faTwitter, faTelegramPlane, faMedium)
 
 const app = createApp(App);
 
@@ -45,4 +46,7 @@ app.provide("filters", {
         return scaled.toFixed(2) + suffix;
     }
 })
+app.provide("addressFormat", (value: string) => {
+    return value.substr(0,5) + '...' + value.substr(value.length-5, value.length);
+});
 app.use(router).mount('#app')

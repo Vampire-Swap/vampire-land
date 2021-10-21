@@ -5,8 +5,8 @@ import { FtmScanResponse } from "./entities/BurnedTokenResponse";
 export async function getTotalSupply(tokenAddress: string):Promise<string> {
     return axios.get<FtmScanResponse>(
         FTM_SCAN_BASE_URL + "?" +
-        "module=" + FTM_SCAN_MODULES.STATS + "&" +
         "action=" + FTM_SCAN_ACTIONS.TOKEN_SUPPLY  + "&" +
+        "module=" + FTM_SCAN_MODULES.STATS + "&" +
         "contractaddress=" + tokenAddress + "&" +
         "apikey=" + FTM_SCAN_API_KEY
     )

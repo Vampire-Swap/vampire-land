@@ -12,6 +12,7 @@ import { PairQuote } from '../utils/entities/PairQuote';
 
 const tvlIcon: string = "coins";
 const marketCapIcon: string = "chart-line";
+const supplyIcon: string = "bat";
 const spookyswap: string = "spookyswap";
 const trackedToken: string = BOO_TOKEN_ADDRESS;
 
@@ -59,7 +60,7 @@ provide("ftmScanStats", {
         <Suspense>
             <template #default>
                 <TokenStatCard
-                    :stat-icon="marketCapIcon" 
+                    :stat-icon="supplyIcon" 
                     stat-title="Circulating supply" />
             </template>
             <template #fallback>

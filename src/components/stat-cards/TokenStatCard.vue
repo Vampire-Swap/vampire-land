@@ -20,7 +20,7 @@ const circulatingToken = ((parseInt(totalSupply) - parseInt(burnedTokens)) / Mat
 
 <template>
     <div class="stat">
-        <div class="stat-figure text-info">
+        <div class="stat-figure text-primary">
             <fa-icon :icon="statIcon" size="lg" />
         </div>
         <div class="stat-title">{{ statTitle }}</div>
