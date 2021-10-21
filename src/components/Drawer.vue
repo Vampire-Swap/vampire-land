@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PropType } from "vue";
+import { inject, PropType } from "vue";
 import { NavigationLink as NavigationLinkEntity } from "../utils/entities/NavigationLink";
 import NavigationLink from "./NavigationLink.vue"
 import { ACCOUNT, connect } from "../services/Wallet";
