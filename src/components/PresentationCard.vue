@@ -27,8 +27,8 @@
 
 <template>
     <div class="card text-center shadow-2xl lg:flex-1 lg:mb-0">
-        <figure class="px-10 pt-10">
-            <img :src="imageName" alt="" class="rounded-xl">
+        <figure>
+            <img :src="imageName" alt="presentation image" class="rounded-xl" width="256" height="256">
         </figure>
         <div class="card-body">
             <h2 class="card-title">{{ cardTitle }}</h2>
