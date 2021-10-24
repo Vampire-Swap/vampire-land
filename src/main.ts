@@ -3,14 +3,16 @@ import App from './App.vue'
 import './main.css'
 import router from './router'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faTint, faMapMarkedAlt, faWallet, faCoins, faChartLine, faChartArea, faBars, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faTint, faMapMarkedAlt, faWallet, faCoins, faChartLine, faChartArea, faBars, faTimes, faPiggyBank } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faBat, faJackOLantern } from './utils/CustomIcons'
+import { faBat, faJackOLantern, faWheat } from './utils/CustomIcons'
 import { ApolloClients } from '@vue/apollo-composable'
 import { getApolloClient } from './services/ApolloClient'
 import { faMedium, faTelegramPlane, faTwitter } from '@fortawesome/free-brands-svg-icons'
+import { formatEther } from '@ethersproject/units'
+import { BigNumber } from '@ethersproject/bignumber'
 
-library.add(faTint, faMapMarkedAlt, faWallet, faCoins, faChartLine, faChartArea, faJackOLantern, faBat, faBars, faTimes, faTwitter, faTelegramPlane, faMedium)
+library.add(faTint, faMapMarkedAlt, faWallet, faCoins, faChartLine, faChartArea, faJackOLantern, faBat, faBars, faTimes, faTwitter, faTelegramPlane, faMedium, faPiggyBank, faWheat)
 
 const app = createApp(App);
 
@@ -25,6 +27,10 @@ app.provide("filters", {
     },
 
     kformat(value: string): string {
+        if (value === 'inf') {
+            return '∞';
+        }
+
         const valueNumber = parseFloat(value);
 
         const SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
@@ -48,5 +54,8 @@ app.provide("filters", {
 })
 app.provide("addressFormat", (value: string) => {
     return value.substr(0,5) + '...' + value.substr(value.length-5, value.length);
+});
+app.provide("ethFormat", (value: string) => {
+    return (parseFloat(formatEther(BigInt(value)))).toFixed(2);
 });
 app.use(router).mount('#app')

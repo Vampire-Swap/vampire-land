@@ -2,6 +2,7 @@ import gql from "graphql-tag";
 
 export const BOO_TOKEN_ADDRESS: string = "0x841fad6eae12c286d1fd18d1d525dffa75c7effe"
 export const VMP_TOKEN_ADDRESS: string = "0x75F4234579a9Bb9Dd1cA1Ba4832634275Cb305B8"
+export const INFINTY: string = "115792089237316195423570985008687907853269984665640564039257584007913129639935"
 
 export function getFullTokenInfo(tokenAddress: string) {
     return gql`

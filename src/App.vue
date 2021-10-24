@@ -17,6 +17,12 @@ function openMobileNavbar() {
 function closeMobileNavbar() {
   document.getElementById('mobile-navbar')!.style.height="0";
 }
+
+document.addEventListener("click", (ev) => {
+      if ((<HTMLElement>ev.target).closest(".modal") && !(<HTMLElement>ev.target).closest(".modal-box")) {
+        (<HTMLElement>ev.target).closest(".modal")?.classList.remove('modal-open')
+      }
+    })
 </script>
 
 <template>

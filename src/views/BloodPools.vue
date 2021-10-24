@@ -4,6 +4,7 @@ import { ACCOUNT } from '../services/Wallet';
 import StakingPoolCard from '../components/StakingPoolCard.vue';
 import { PoolEntity } from '../utils/entities/PoolEntity';
 import { BOO_TOKEN_ADDRESS, VMP_TOKEN_ADDRESS } from '../utils/Constants';
+import SkeletonCard from '../components/SkeletonCard.vue';
 
 const POOLS: Array<PoolEntity> = new Array(
     {
@@ -14,16 +15,26 @@ const POOLS: Array<PoolEntity> = new Array(
       stakeTokenSymbol: "VMP",
       rewardTokenName: "Vampire",
       rewardTokenSymbol: "VMP",
-      rewardTokenLogo: "../../assets/vmp.svg"
-    }
+      rewardTokenLogo: "../../assets/vmp.svg",
+      new: true
+    },
 );
 </script>
 
 <template>
     <WalletNotConnectedPlaceholder v-if="ACCOUNT === 'Connect Wallet'" />
     <div v-else class="min-h-screen">
-        <section class="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 m-2 mt-8">
-            <StakingPoolCard v-for="pool in POOLS" :key="pool.poolContractAddress" :pool="pool" />
+        <section class="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 mt-8">
+            <div v-for="pool in POOLS" :key="pool.poolContractAddress">
+                <Suspense>
+                    <template #default>
+                        <StakingPoolCard :pool="pool" apollo-provider="spookyswap" />
+                    </template>
+                    <template #fallback>
+                        <SkeletonCard />
+                    </template>
+                </Suspense>
+            </div>
         </section>
     </div>
 </template>
