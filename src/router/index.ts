@@ -1,9 +1,9 @@
 import Home from '../views/Home.vue';
-import BloodPools from "../views/BloodPools.vue";
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 
+const BloodPools = () => import("../views/BloodPools.vue");
 const PumpkinPatches = () => import("../views/PumpkinPatches.vue");
-const Roadmap = () => import("../views/Roadmap.vue")
+const Roadmap = () => import("../views/Roadmap.vue");
 
 const routes = [
     {
@@ -29,7 +29,7 @@ const routes = [
 ]
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHashHistory(),
     routes
 });
 
