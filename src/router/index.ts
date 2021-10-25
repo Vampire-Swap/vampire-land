@@ -1,6 +1,10 @@
 import Home from '../views/Home.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
+const BloodPools = () => import("../views/BloodPools.vue");
+const PumpkinPatches = () => import("../views/PumpkinPatches.vue");
+const Roadmap = () => import("../views/Roadmap.vue")
+
 const routes = [
     {
         path: "/",
@@ -10,17 +14,17 @@ const routes = [
     {
         path: "/blood-pools",
         name: "BloodPools",
-        component: () => import("../views/BloodPools.vue")
+        component: BloodPools
     },
     {
         path: "/pumpkin-patches",
         name: "PumpkinPatches",
-        component: () => import("../views/PumpkinPatches.vue")
+        component: PumpkinPatches
     },
     {
         path: "/roadmap",
         name: "Roadmap",
-        component: () => import("../views/Roadmap.vue")
+        component: Roadmap
     },
 ]
 

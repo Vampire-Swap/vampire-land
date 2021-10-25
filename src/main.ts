@@ -3,7 +3,7 @@ import App from './App.vue'
 import './main.css'
 import router from './router'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faTint, faMapMarkedAlt, faWallet, faCoins, faChartLine, faChartArea, faBars, faTimes, faPiggyBank } from '@fortawesome/free-solid-svg-icons'
+import { faTint, faMapMarkedAlt, faWallet, faCoins, faChartLine, faChartArea, faBars, faTimes, faPiggyBank, faSync } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faBat, faJackOLantern, faWheat } from './utils/CustomIcons'
 import { ApolloClients } from '@vue/apollo-composable'
@@ -12,7 +12,7 @@ import { faMedium, faTelegramPlane, faTwitter } from '@fortawesome/free-brands-s
 import { formatEther } from '@ethersproject/units'
 import { BigNumber } from '@ethersproject/bignumber'
 
-library.add(faTint, faMapMarkedAlt, faWallet, faCoins, faChartLine, faChartArea, faJackOLantern, faBat, faBars, faTimes, faTwitter, faTelegramPlane, faMedium, faPiggyBank, faWheat)
+library.add(faTint, faMapMarkedAlt, faWallet, faCoins, faChartLine, faChartArea, faJackOLantern, faBat, faBars, faTimes, faTwitter, faTelegramPlane, faMedium, faPiggyBank, faWheat, faSync)
 
 const app = createApp(App);
 
