@@ -1,7 +1,7 @@
 import Home from '../views/Home.vue';
+import BloodPools from "../views/BloodPools.vue";
 import { createRouter, createWebHistory } from 'vue-router';
 
-const BloodPools = () => import("../views/BloodPools.vue");
 const PumpkinPatches = () => import("../views/PumpkinPatches.vue");
 const Roadmap = () => import("../views/Roadmap.vue")
 
