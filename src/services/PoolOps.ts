@@ -4,7 +4,10 @@ import tokenAbi from "../abi/Token.json"
 import poolAbi from "../abi/Pool.json";
 import { BigNumber, ethers } from "ethers";
 import { INFINTY } from "../utils/Constants";
-import { formatEther, parseEther } from "@ethersproject/units";
+import { parseEther } from "@ethersproject/units";
+import { useToast } from "vue-toastification";
+import Alert from "../components/Alert.vue";
+import { AlertType } from "../utils/entities/AlertType";
 
 export async function approvePool(pool: PoolEntity) {
     if (!web3) {
@@ -18,9 +21,15 @@ export async function approvePool(pool: PoolEntity) {
 
     const stakedTokenContract = new ethers.Contract(pool.stakeTokenAddress, JSON.parse(tokenAbi.result), web3.getSigner());
     const address = web3.getSigner().getAddress();
-    const gasPrice = await web3.getGasPrice();
 
-    let tx = await stakedTokenContract.approve(pool.poolContractAddress, BigInt(INFINTY));
+    let tx;
+
+    try{
+        tx = await stakedTokenContract.approve(pool.poolContractAddress, BigInt(INFINTY));
+    }
+    catch(reason: any) {
+        return reason.code;
+    }
 
     await tx.wait();
 
@@ -29,7 +38,7 @@ export async function approvePool(pool: PoolEntity) {
     return approved;
 }
 
-export async function depositPool(pool: PoolEntity, amount: string) {
+export async function depositPool(pool: PoolEntity, amount: string): Promise<number> {
     if (!web3) {
         return Promise.reject("Your wallet is not connected");
     }
@@ -41,11 +50,18 @@ export async function depositPool(pool: PoolEntity, amount: string) {
 
     const poolContract = new ethers.Contract(pool.poolContractAddress, JSON.parse(poolAbi.result), web3.getSigner());
 
-    let tx = await poolContract.deposit(parseEther(amount));
+    let tx ;
+    
+    try {
+        tx = await poolContract.deposit(parseEther(amount));
+    }
+    catch(reason: any) {
+        return reason.code;
+    }
 
     const receipt: ethers.providers.TransactionReceipt = await tx.wait();
 
-    return receipt.status;
+    return receipt.status ? receipt.status : 0;
 }
 
 export async function harvestPool(pool: PoolEntity) {
@@ -60,7 +76,14 @@ export async function harvestPool(pool: PoolEntity) {
 
     const poolContract = new ethers.Contract(pool.poolContractAddress, JSON.parse(poolAbi.result), web3.getSigner());
 
-    let tx = await poolContract.withdraw(parseEther("0"));
+    let tx ;
+
+    try {
+        tx = await poolContract.withdraw(parseEther("0"));
+    }
+    catch(reason: any) {
+        return reason.code;
+    }
 
     const receipt: ethers.providers.TransactionReceipt = await tx.wait();
 
@@ -79,9 +102,14 @@ export async function withdrawPool(pool: PoolEntity, amount: string) {
 
     const poolContract = new ethers.Contract(pool.poolContractAddress, JSON.parse(poolAbi.result), web3.getSigner());
 
-    console.log(amount);
-
-    let tx = await poolContract.withdraw(parseEther(amount));
+    let tx ;
+    
+    try {
+        tx = await poolContract.withdraw(parseEther(amount));
+    }
+    catch(reason: any) {
+        return reason.code;
+    }
 
     const receipt: ethers.providers.TransactionReceipt = await tx.wait();
 

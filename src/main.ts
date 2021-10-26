@@ -10,7 +10,9 @@ import { ApolloClients } from '@vue/apollo-composable'
 import { getApolloClient } from './services/ApolloClient'
 import { faMedium, faTelegramPlane, faTwitter } from '@fortawesome/free-brands-svg-icons'
 import { formatEther } from '@ethersproject/units'
-import { BigNumber } from '@ethersproject/bignumber'
+import Toast from "vue-toastification";
+import { PluginOptions } from 'vue-toastification'
+import "vue-toastification/dist/index.css";
 
 library.add(faTint, faMapMarkedAlt, faWallet, faCoins, faChartLine, faChartArea, faJackOLantern, faBat, faBars, faTimes, faTwitter, faTelegramPlane, faMedium, faPiggyBank, faWheat, faSync)
 
@@ -58,4 +60,11 @@ app.provide("addressFormat", (value: string) => {
 app.provide("ethFormat", (value: string) => {
     return (parseFloat(formatEther(BigInt(value)))).toFixed(2);
 });
+const toastOptions: PluginOptions = {
+    transition: "Vue-Toastification__fade",
+    maxToasts: 5,
+    newestOnTop: true,
+};
+
+app.use(Toast, toastOptions);
 app.use(router).mount('#app')

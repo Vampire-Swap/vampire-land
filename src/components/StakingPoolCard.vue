@@ -14,7 +14,8 @@ import { formatEther } from '@ethersproject/units';
 import ProTip from './ProTip.vue';
 import Alert from './Alert.vue';
 import { AlertType } from '../utils/entities/AlertType';
-import { notify } from '../services/NotificationSystem';
+import { useToast } from 'vue-toastification';
+import { notify, notifyMetamask } from '../services/Notification';
 
 /* Variable definitions */
 const props = defineProps({
@@ -40,8 +41,7 @@ let withdrawAmount = ref(0);
 const filters: any = inject("filters");
 const ethFormat: any = inject("ethFormat");
 const shouldLoadPool = ref(false);
-const alertType = ref(AlertType.SUCCESS);
-const alertMessage = ref("");
+const toast = useToast();
 
 const { result, loading } = useQuery<TokenResponse>(getTokenPriceInfo(props.pool.rewardTokenAddress), null, {
     fetchPolicy: 'cache-first',
@@ -93,27 +93,34 @@ function approve(event: Event) {
     button.classList.add("loading");
     approvePool(props.pool)
     .then((value) => {
-        if (value) {
+        if (value === 1) {
             approvedNow.value = true;
         }
+        notifyMetamask(value);
     })
-    .catch(reason => alert(AlertType.ERROR, reason.message))
+    .catch(reason => notify(AlertType.ERROR, reason.message))
     .finally(() => {
         button.classList.remove("loading");
     });
 }
 
 async function deposit(event: Event) {
+    if (depositAmount.value > parseFloat(ethFormat(walletTokens.value))) {
+        notify(AlertType.ERROR, "Amount exceeds balance")
+        return
+    }
+
     const button = (event.target as  HTMLElement);
     button.classList.add("loading");
     depositPool(props.pool, depositAmount.value.toString())
     .then((res) => {
-        if (res) {
+        if (res === 1) {
             refreshPool();
         }
+        notifyMetamask(res);
     })
     .catch(reason => {
-        alert(AlertType.ERROR, reason.message)
+        notify(AlertType.ERROR, reason.message)
     })
     .finally(() => {
         button.classList.remove("loading")
@@ -124,27 +131,34 @@ async function harvest(event: Event) {
     const button = (event.target as  HTMLElement);
     button.classList.add("loading");
     harvestPool(props.pool).then(res => {
-        if (res) {
+        if (res === 1) {
             refreshPool();
         }
+        notifyMetamask(res)
     })
-    .catch(reason => alert(AlertType.ERROR, reason.message))
+    .catch(reason => notify(AlertType.ERROR, reason.message))
     .finally(() => {
         button.classList.remove("loading")
     });
 }
 
 async function withdraw(event: Event) {
+    if (withdrawAmount.value > parseFloat(ethFormat(depositedTokens.value))) {
+        notify(AlertType.ERROR, "Amount exceeds balance")
+        return
+    }
+
     const button = (event.target as  HTMLElement);
     button.classList.add("loading");
     withdrawPool(props.pool, withdrawAmount.value.toString())
     .then(res => {
-        if (res) {
+        if (res === 1) {
             refreshPool();
         }
+        notifyMetamask(res);
     })
     .catch(reason => {
-        alert(AlertType.ERROR, reason.message)
+        notify(AlertType.ERROR, reason.message)
     })
     .finally(() => {
         button.classList.remove("loading")
@@ -157,13 +171,6 @@ async function refreshPool() {
     depositedTokens.value = freshPool.depositedTokens
     harvestTokens.value = freshPool.pendingReward
     totalStaked.value = freshPool.totalStaked
-}
-
-function alert(type: AlertType, message: string) {
-    alertMessage.value = message;
-    alertType.value = type;
-
-    notify(modalId + '-alert');
 }
 </script>
 
@@ -186,10 +193,6 @@ function alert(type: AlertType, message: string) {
 
     <div class="modal" :id="modalId">
         <div class="modal-box flex flex-col justify-center items-center">
-            <!-- <div>
-                <Alert class="hidden" :id="modalId + '-alert'" :alert-type="alertType" :alert-message="alertMessage" />
-            </div> -->
-
             <div class="shadow-xl stats flex w-full overflow-x-scroll">
                 <div class="stat place-items-center place-content-center">
                     <div class="stat-desc text-primary opacity-100">
