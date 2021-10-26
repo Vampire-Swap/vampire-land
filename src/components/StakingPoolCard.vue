@@ -105,7 +105,7 @@ function approve(event: Event) {
 }
 
 async function deposit(event: Event) {
-    if (depositAmount.value > parseFloat(ethFormat(walletTokens.value))) {
+    if (depositAmount.value > parseFloat(formatEther(BigInt(walletTokens.value!)))) {
         notify(AlertType.ERROR, "Amount exceeds balance")
         return
     }
@@ -143,7 +143,7 @@ async function harvest(event: Event) {
 }
 
 async function withdraw(event: Event) {
-    if (withdrawAmount.value > parseFloat(ethFormat(depositedTokens.value))) {
+    if (withdrawAmount.value > parseFloat(formatEther(BigInt(depositedTokens.value!)))) {
         notify(AlertType.ERROR, "Amount exceeds balance")
         return
     }
